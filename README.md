@@ -3,4 +3,4 @@
 Juliette Hortemel
 Dunstan Becht
 
-Projet Technique EMSE
+Projet Technique Mines Saint-Etienne
