@@ -1,26 +1,33 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-    #========= IMPORTS ===================================================#
+class Cellule :
 
-import os
-
-    #========= CONSTANTS =================================================#
-
-CONSTANT_NAME = 0
-
-    #========= VARIABLES =================================================#
-
-variable_name = 1
-
-    #========= FUNCTIONS =================================================#
-
-def functionName(argument):
-    pass
-
-    #========= CLASSES ===================================================#
-
-class ClassName:
-
-    def __init__(self):
+    __init__(x, y):
+        self.x = x
+        self.y = y
+        
+class GridState:
+    
+    __init__():
         pass
+# les fonctions suivantes sont les fonctions de la classe state, on peut faire State.isAlive(c)"
+
+    def isAlive(c):
+        return True
+    
+    def nextState():
+        return state
+        
+    
+class Game:
+    
+    __init__():
+        pass
+    
+
+    def alive(c): 
+        return True
+    
+    
+c = Cellule(3, 4)
