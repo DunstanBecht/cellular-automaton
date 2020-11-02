@@ -1,6 +1,12 @@
 # Cellular Automaton
 
-Juliette Hortemel
-Dunstan Becht
+![Mines Saint-Etienne](Pictures/EMSE.svg)
 
-Projet Technique Mines Saint-Etienne
+Research project.
+
+* Juliette Hortemel
+* Dunstan Becht
+
+```math
+SE = \frac{\sigma}{\sqrt{n}}
+```
