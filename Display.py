@@ -11,7 +11,8 @@ def display(configuration):
 
     chessboard = numpy.zeros((10, 10))
     for i in range(len(configuration.cells)):
-        x, y = configuration.cells[i]
+        x = configuration.cells[i].x
+        y = configuration.cells[i].y
         state = configuration.states[i]
         chessboard[x, y] = 1
 

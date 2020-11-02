@@ -14,5 +14,9 @@ class Cell :
         """Returns true if the cells have the same position."""
         return self.x==c.x and self.y==c.y
 
+    def __str__(self):
+        return "["+str(self.x)+", "+str(self.y)+"]"
+
 if __name__ == "__main__":
     cell = Cell(0, 1)
+    print(cell)

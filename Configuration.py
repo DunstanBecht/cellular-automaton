@@ -48,9 +48,9 @@ class Configuration:
             raise Exception("bad type")
         return stateOf(self, cell)==state
 
-    def nextState(self):
+    def nextConfiguration(self):
         """Returns the next configuration."""
-        return state
+        return 0
 
 if __name__ == "__main__":
     pass
