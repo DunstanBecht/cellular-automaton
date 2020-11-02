@@ -31,5 +31,11 @@ class GameOfLife:
         
         return True
 
-    def voisin(self, cell,):
-        return []
+    def voisin(self, cell):
+        c1=Cell(cell.x + 1, cell.y)
+        c2=Cell(cell.x, cell.y + 1)
+        c3=Cell(cell.x + 1, cell.y + 1)
+        c4=Cell(cell.x - 1, cell.y)
+        c5=Cell(cell.x, cell.y - 1)
+        c6=Cell(cell.x - 1, cell.y - 1)
+        return [c1, c2, c3, c4, c5, c6]
