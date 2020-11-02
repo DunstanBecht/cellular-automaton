@@ -10,6 +10,9 @@ class Cell :
         self.x = x
         self.y = y
 
+    def __eq__(self, c):
+        """Returns true if the cells have the same position."""
+        return self.x==c.x and self.y==c.y
+
 if __name__ == "__main__":
     cell = Cell(0, 1)
-
