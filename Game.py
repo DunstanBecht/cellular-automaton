@@ -4,42 +4,32 @@
 from Configuration import *
 
 
-class Game:
+class GameOfLife:
     """Defines the rules."""
 
 
-    def alive(self, cell): 
-        if isOfState(cell) == True :
+    def NextState(self, cell,config): 
+        if config.isOfState(alive,cell) == True :
             compteur = 0
             for i in range (len(voisin(cell))):
-               if isOfState(voisin(cell[i])) == True :
+               if config.isOfState(alive,voisin(cell[i])) == True :
                    compteur += 1
             if compteur == 2 or compteur == 3 :
-                return True
+                return alive
             else :
-                return False
+                return dead
         else :
             compteur2 = 0
             for i in range (len(voisin(cell))) :
-                if isOfState(voisin(cell[i])) == True :
+                if config.isOfState(alive,voisin(cell[i])) == True :
                     compteur2 += 1
             if compteur2 == 3 :
-                return True
+                return alive
             else :
-                return False
+                return dead
                     
         
         return True
 
-    def voisin(self, cell):
-        return []
-
-class GameOfLife(Game):
-
-    def alive(self, configuration,  cell): 
-        # self.voisin(cell) ->liste de cellules
-        # 
-        return True
-
-    def voisin(self, cell):
+    def voisin(self, cell,):
         return []
