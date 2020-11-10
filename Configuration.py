@@ -3,7 +3,6 @@
 
 from Cell import *
 from State import *
-from Game import *
 
 class Configuration:
     """Represents a state of the grid (the state of each cell)."""
@@ -30,7 +29,7 @@ class Configuration:
             # Data processing:
             self.cells = [c for c in args[0]]
             self.states = [s for s in args[1]]
-            
+
     def __len__(self):
         return len(self.stateList())
 
@@ -47,18 +46,18 @@ class Configuration:
         return Configuration.default_state
 
 
-    def nextConfiguration(self):
+    def nextConfiguration(self, Game):
         """Returns the next configuration."""
         old_cells = self.stateList()[0]
         old_states = self.stateList()[1]
         new_cells = [c for c in old_cells]
         new_states = []
         for i in range(len(old_cells)) :
-            for v in GameOfLife.voisin(old_cells[i]):
+            for v in Game.voisin(old_cells[i]):
                 if not v in new_cells :
                     new_cells.append(v)
         for j in new_cells :
-            new_states.append(GameOfLife.nextState(j, self))
+            new_states.append(Game.nextState(j, self))
         cells = []
         states = []
         for l in range(len(new_states)):
@@ -66,13 +65,7 @@ class Configuration:
                 cells.append(new_cells[l])
                 states.append(new_states[l])
         return Configuration(cells, states)
-            
-            
-
-        return 0
 
 if __name__ == "__main__":
     c = Configuration([Cell(0,0)], [alive])
     print(c.nextConfiguration().stateList())
-
-

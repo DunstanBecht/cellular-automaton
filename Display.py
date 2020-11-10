@@ -4,6 +4,9 @@
 import matplotlib.pyplot
 import numpy
 from Configuration import *
+from Game import *
+
+game = GameOfLife
 
 class Display:
     """Allow to display configurations and their evolutions."""
@@ -25,7 +28,7 @@ class Display:
             self.time -= 1
         if self.time==len(self.configs):
             print('Generating configuration t='+str(self.time))
-            self.configs.append(self.configs[-1].nextConfiguration())
+            self.configs.append(self.configs[-1].nextConfiguration(game))
         self.plot()
 
     def plot(self):
