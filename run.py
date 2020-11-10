@@ -4,9 +4,9 @@
 from Game import *
 from Display import *
 
-config = Configuration([Cell(0, -1), Cell(0,0), Cell(0, 1)],
+config = Configuration([Cell(5, 6), Cell(5,5), Cell(5, 7)],
                        [alive,       alive,     alive])
 
 print(config.stateOf(Cell(0, -1)))
 
-display(config)
+Display(config).show()
