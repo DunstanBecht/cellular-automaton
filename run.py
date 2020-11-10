@@ -9,4 +9,4 @@ config = Configuration([Cell(5, 6), Cell(5,5), Cell(5, 7)],
 
 print(config.stateOf(Cell(0, -1)))
 
-display(config)
+Display(config).show()
