@@ -6,6 +6,7 @@ import numpy
 from Configuration import *
 
 def display(configuration):
+    fig, ax = matplotlib.pyplot.subplots(1)
     matplotlib.pyplot.cla()
     matplotlib.pyplot.axis('off')
 
@@ -14,7 +15,8 @@ def display(configuration):
         x = configuration.cells[i].x
         y = configuration.cells[i].y
         state = configuration.states[i]
-        chessboard[x, y] = 1
+        circ = matplotlib.pyplot.Circle((x, y), 0.5, color=state.color)
+        ax.add_patch(circ)
 
     matplotlib.pyplot.imshow(chessboard, cmap='binary')
     matplotlib.pyplot.show()
