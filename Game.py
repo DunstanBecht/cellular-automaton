@@ -3,16 +3,15 @@
 
 from Configuration import *
 
-
 class GameOfLife:
     """Defines the rules."""
 
 
-    def NextState(self, cell,config): 
-        if config.isOfState(alive,cell) == True :
+    def nextState(cell,config): 
+        if config.stateOf(cell) == alive :
             compteur = 0
-            for i in range (len(voisin(cell))):
-               if config.isOfState(alive,voisin(cell[i])) == True :
+            for i in range(len(GameOfLife.voisin(cell))):
+               if config.stateOf(GameOfLife.voisin(cell)[i]) == alive :
                    compteur += 1
             if compteur == 2 or compteur == 3 :
                 return alive
@@ -20,8 +19,8 @@ class GameOfLife:
                 return dead
         else :
             compteur2 = 0
-            for i in range (len(voisin(cell))) :
-                if config.isOfState(alive,voisin(cell[i])) == True :
+            for i in range(len(GameOfLife.voisin(cell))) :
+                if config.stateOf(GameOfLife.voisin(cell)[i]) == alive :
                     compteur2 += 1
             if compteur2 == 3 :
                 return alive
@@ -31,7 +30,7 @@ class GameOfLife:
         
         return True
 
-    def voisin(self, cell):
+    def voisin(cell):
         c1=Cell(cell.x + 1, cell.y)
         c2=Cell(cell.x, cell.y + 1)
         c3=Cell(cell.x + 1, cell.y + 1)

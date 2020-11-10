@@ -30,6 +30,12 @@ class Configuration:
             # Data processing:
             self.cells = [c for c in args[0]]
             self.states = [s for s in args[1]]
+            
+    def __len__(self):
+        return len(self.stateList())
+
+    def stateList(self):
+        return  [self.cells, self.states]
 
     def stateOf(self, cell):
         """Returns the state of 'cell'."""
@@ -40,17 +46,33 @@ class Configuration:
                 return self.states[i]
         return Configuration.default_state
 
-    def isOfState(self, state, cell):
-        """Returns true if the cell 'cell' is of state 'state'."""
-        if not isinstance(state, State):
-            raise Exception("bad type")
-        if not isinstance(cell, Cell):
-            raise Exception("bad type")
-        return stateOf(self, cell)==state
 
     def nextConfiguration(self):
         """Returns the next configuration."""
+        old_cells = self.stateList()[0]
+        old_states = self.stateList()[1]
+        new_cells = [c for c in old_cells]
+        new_states = []
+        for i in range(len(old_cells)) :
+            for v in GameOfLife.voisin(old_cells[i]):
+                if not v in new_cells :
+                    new_cells.append(v)
+        for j in new_cells :
+            new_states.append(GameOfLife.nextState(j, self))
+        cells = []
+        states = []
+        for l in range(len(new_states)):
+            if new_states[l] != Configuration.default_state :
+                cells.append(new_cells[l])
+                states.append(new_states[l])
+        return Configuration(cells, states)
+            
+            
+
         return 0
 
 if __name__ == "__main__":
-    pass
+    c = Configuration([Cell(0,0)], [alive])
+    print(c.nextConfiguration().stateList())
+
+
