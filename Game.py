@@ -7,7 +7,7 @@ class GameOfLife:
     """Defines the rules."""
 
 
-    def nextState(cell,config): 
+    def nextState(cell,config):
         if config.stateOf(cell) == alive :
             compteur = 0
             for i in range(len(GameOfLife.voisin(cell))):
@@ -26,15 +26,21 @@ class GameOfLife:
                 return alive
             else :
                 return dead
-                    
-        
+
+
         return True
 
     def voisin(cell):
-        c1=Cell(cell.x + 1, cell.y)
-        c2=Cell(cell.x, cell.y + 1)
-        c3=Cell(cell.x + 1, cell.y + 1)
-        c4=Cell(cell.x - 1, cell.y)
-        c5=Cell(cell.x, cell.y - 1)
-        c6=Cell(cell.x - 1, cell.y - 1)
-        return [c1, c2, c3, c4, c5, c6]
+        c1 = Cell(cell.x+1, cell.y+1)
+        c2 = Cell(cell.x+1, cell.y-1)
+        c3 = Cell(cell.x-1, cell.y+1)
+        c4 = Cell(cell.x-1, cell.y-1)
+        c5 = Cell(cell.x+1, cell.y)
+        c6 = Cell(cell.x-1, cell.y)
+        c7 = Cell(cell.x, cell.y+1)
+        c8 = Cell(cell.x, cell.y-1)
+        return [c1, c2, c3, c4, c5, c6, c7, c8]
+
+if __name__ == "__main__":
+    for c in GameOfLife.voisin(Cell(0,0)):
+        print(c)
