@@ -3,10 +3,16 @@
 
 from Game import *
 from Display import *
+from backward import *
 
-config = Configuration([Cell(5, 6), Cell(5,5), Cell(5, 7)],
-                       [alive,       alive,     alive])
 
-print(config.stateOf(Cell(0, -1)))
+if False:
+    config = Configuration([Cell(5, 6), Cell(5,5), Cell(5, 7)],
+                           [alive,       alive,     alive])
+    
+    print(config.stateOf(Cell(0, -1)))
+    
+    Display(config).show()
 
-Display(config).show()
+if True:
+    
