@@ -3,32 +3,27 @@
 
 from Configuration import *
 
-class GameOfLife:
+class Game:
     """Defines the rules."""
 
+    def __init__(self, base, matrix):
+        """ Msij gives the next state for a cell in a state s with i neighboors in the first state of the base, j in the second state, and so on. """
+        self.base = base
+        self.matrix= matrix
 
-    def nextState(cell,config):
-        if config.stateOf(cell) == alive :
-            compteur = 0
-            for i in range(len(GameOfLife.voisin(cell))):
-               if config.stateOf(GameOfLife.voisin(cell)[i]) == alive :
-                   compteur += 1
-            if compteur == 2 or compteur == 3 :
-                return alive
-            else :
-                return dead
-        else :
-            compteur2 = 0
-            for i in range(len(GameOfLife.voisin(cell))) :
-                if config.stateOf(GameOfLife.voisin(cell)[i]) == alive :
-                    compteur2 += 1
-            if compteur2 == 3 :
-                return alive
-            else :
-                return dead
+    def image(self, state, neighboors):
+        """Gives a state."""
+        if sum(neighboors)!=8:
+            raise Exception("wrong arguments")
 
+        state = self.matrix[self.base.index(state)]
+        for i in neighboors:
+            state = state[i]
+        return state
 
-        return True
+    def preImage(self, state):
+        """ """
+        return [[]]
 
     def voisin(cell):
         c1 = Cell(cell.x+1, cell.y+1)
@@ -41,6 +36,48 @@ class GameOfLife:
         c8 = Cell(cell.x, cell.y-1)
         return [c1, c2, c3, c4, c5, c6, c7, c8]
 
+    def nextConfiguration(self, Game):
+        """Returns the next configuration."""
+        old_cells = self.stateList()[0]
+        old_states = self.stateList()[1]
+        new_cells = [c for c in old_cells]
+        new_states = []
+        for i in range(len(old_cells)) :
+            for v in Game.voisin(old_cells[i]):
+                if not v in new_cells :
+                    new_cells.append(v)
+        for j in new_cells :
+            new_states.append(Game.nextState(j, self))
+        cells = []
+        states = []
+        for l in range(len(new_states)):
+            if new_states[l] != Configuration.default_state :
+                cells.append(new_cells[l])
+                states.append(new_states[l])
+        return Configuration(cells, states)
+        
+base = [alive, dead]
+matrix = [[[None, None, None, None, None, None, None, None, dead],
+           [None, None, None, None, None, None, None, dead, None],
+           [None, None, None, None, None, None, alive, None, None],
+           [None, None, None, None, None, alive, None, None, None],
+           [None, None, None, None, dead, None, None, None, None],
+           [None, None, None, dead, None, None, None, None, None],
+           [None, None, dead, None, None, None, None, None, None],
+           [None, dead, None, None, None, None, None, None, None],
+           [dead, None, None, None, None, None, None, None, None]],
+          [[None, None, None, None, None, None, None, None, dead],
+           [None, None, None, None, None, None, None, dead, None],
+           [None, None, None, None, None, None, dead, None, None],
+           [None, None, None, None, None, alive, None, None, None],
+           [None, None, None, None, dead, None, None, None, None],
+           [None, None, None, dead, None, None, None, None, None],
+           [None, None, dead, None, None, None, None, None, None],
+           [None, dead, None, None, None, None, None, None, None],
+           [dead, None, None, None, None, None, None, None, None]]]
+
+game_of_life = Game(base, matrix)
+
 if __name__ == "__main__":
-    for c in GameOfLife.voisin(Cell(0,0)):
-        print(c)
+
+    print(game_of_life.image(alive, [2,6]))

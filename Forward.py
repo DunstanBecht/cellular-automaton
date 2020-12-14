@@ -3,12 +3,11 @@
 
 import matplotlib.pyplot
 import numpy
-from Configuration import *
 from Game import *
 
 game = GameOfLife
 
-class Display:
+class Forward:
     """Allow to display configurations and their evolutions."""
 
     def __init__(self, configuration):
@@ -50,3 +49,26 @@ class Display:
 
     def show(self):
         matplotlib.pyplot.show()
+
+    def nextState(cell,config):
+        if config.stateOf(cell) == alive :
+            compteur = 0
+            for i in range(len(GameOfLife.voisin(cell))):
+               if config.stateOf(GameOfLife.voisin(cell)[i]) == alive :
+                   compteur += 1
+            if compteur == 2 or compteur == 3 :
+                return alive
+            else :
+                return dead
+        else :
+            compteur2 = 0
+            for i in range(len(GameOfLife.voisin(cell))) :
+                if config.stateOf(GameOfLife.voisin(cell)[i]) == alive :
+                    compteur2 += 1
+            if compteur2 == 3 :
+                return alive
+            else :
+                return dead
+
+
+        return True

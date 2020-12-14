@@ -45,27 +45,6 @@ class Configuration:
                 return self.states[i]
         return Configuration.default_state
 
-
-    def nextConfiguration(self, Game):
-        """Returns the next configuration."""
-        old_cells = self.stateList()[0]
-        old_states = self.stateList()[1]
-        new_cells = [c for c in old_cells]
-        new_states = []
-        for i in range(len(old_cells)) :
-            for v in Game.voisin(old_cells[i]):
-                if not v in new_cells :
-                    new_cells.append(v)
-        for j in new_cells :
-            new_states.append(Game.nextState(j, self))
-        cells = []
-        states = []
-        for l in range(len(new_states)):
-            if new_states[l] != Configuration.default_state :
-                cells.append(new_cells[l])
-                states.append(new_states[l])
-        return Configuration(cells, states)
-
 if __name__ == "__main__":
     c = Configuration([Cell(0,0)], [alive])
     print(c.nextConfiguration().stateList())
