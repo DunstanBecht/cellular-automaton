@@ -22,8 +22,16 @@ class Game:
         return state
 
     def preImage(self, state):
-        """ """
-        return [[]]
+        res = []
+        def aux(x,args,state):
+            if isinstance(x, list):
+                for i in range(len(x)):
+                    aux(x[i],args + [i], state)
+            elif isinstance(x, State) and x == state :
+                res.append(args)
+        aux(self.matrix, [], state)
+        return res
+        # The state is given by its index in the base
 
     def voisin(self, cell):
         c1 = Cell(cell[0]+1, cell[1]+1)
@@ -36,7 +44,7 @@ class Game:
         c8 = Cell(cell[0], cell[1]-1)
         return [c1, c2, c3, c4, c5, c6, c7, c8]
 
-game_of_life = Game([alive, dead], 
+game_of_life = Game([alive, dead],
                     [[[None, None, None, None, None, None, None, None, dead],
                       [None, None, None, None, None, None, None, dead, None],
                       [None, None, None, None, None, None, alive, None, None],
