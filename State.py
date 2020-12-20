@@ -2,7 +2,7 @@
 # coding: utf-8
 
 class State:
-    """Represents a possible state for the cells."""
+    """Represents a state that can be taken by a cell."""
 
     def __init__(self, name, color):
         self.name = name
@@ -13,6 +13,3 @@ class State:
 
 alive = State("alive", "black")
 dead = State("dead", "white")
-
-if __name__ == "__main__":
-    print(isinstance(alive, State))

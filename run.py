@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from Display import *
-from backward import *
+from Forward import *
+from Backward import *
 
 
-if False: # Foward
+if True: # Foward
     config = Configuration([Cell(5, 6), Cell(5,5), Cell(5, 7)],
-                           [alive,       alive,     alive])
+                           [alive,       alive,     alive],
+                           dead)
 
-    Display(config).show()
+    Forward(config, game_of_life).show()
 
-if True: #Backward
+if False: #Backward
     config = Configuration([Cell(5, 6), Cell(5,5), Cell(5, 7)],
-                           [alive,       alive,     alive])
+                           [alive,       alive,     alive],
+                           dead)

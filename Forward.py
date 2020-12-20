@@ -5,20 +5,44 @@ import matplotlib.pyplot
 import numpy
 from Game import *
 
-game = GameOfLife
-
 class Forward:
     """Allow to display configurations and their evolutions."""
 
-    def __init__(self, configuration):
+    def __init__(self, configuration, game):
         if not isinstance(configuration, Configuration):
             raise Exception("bad arguments")
+        self.game = game
         self.configs = [configuration]
         self.time = 0
         self.fig, self.ax = matplotlib.pyplot.subplots(1)
 
         cid = self.fig.canvas.mpl_connect('key_press_event', self.onPress)
         self.plot()
+
+    def nextConfiguration(self, configuration):
+        """Returns the next configuration."""
+        old_cells = configuration.stateList()[0]
+        old_states = configuration.stateList()[1]
+        new_cells = [c for c in old_cells]
+        new_states = []
+        for i in range(len(old_cells)) :
+            for v in self.game.voisin(old_cells[i]):
+                if not v in new_cells :
+                    new_cells.append(v)
+        for j in new_cells :
+            neighboors = [0 for i in range(len(self.game.base))]
+            for v in self.game.voisin(j):
+                neighboors[self.game.base.index(configuration.stateOf(v))] += 1
+            new_states.append(self.game.image(configuration.stateOf(j),
+                                         neighboors))
+        cells = []
+        states = []
+        for l in range(len(new_states)):
+            if new_states[l] != configuration.default_state :
+                cells.append(new_cells[l])
+                states.append(new_states[l])
+        return Configuration(cells, states, configuration.default_state)
+
 
     def onPress(self, event):
         if event.key=="right":
@@ -27,7 +51,7 @@ class Forward:
             self.time -= 1
         if self.time==len(self.configs):
             print('Generating configuration t='+str(self.time))
-            self.configs.append(self.configs[-1].nextConfiguration(game))
+            self.configs.append(self.nextConfiguration(self.configs[-1]))
         self.plot()
 
     def plot(self):
@@ -40,8 +64,8 @@ class Forward:
         matplotlib.pyplot.axis('off')
         chessboard = numpy.zeros((10, 10))
         for i in range(len(configuration.cells)):
-            x = configuration.cells[i].x
-            y = configuration.cells[i].y
+            x = configuration.cells[i][0]
+            y = configuration.cells[i][1]
             state = configuration.states[i]
             circ = matplotlib.pyplot.Circle((x, y), 0.5, color=state.color)
             self.ax.add_patch(circ)
@@ -49,26 +73,3 @@ class Forward:
 
     def show(self):
         matplotlib.pyplot.show()
-
-    def nextState(cell,config):
-        if config.stateOf(cell) == alive :
-            compteur = 0
-            for i in range(len(GameOfLife.voisin(cell))):
-               if config.stateOf(GameOfLife.voisin(cell)[i]) == alive :
-                   compteur += 1
-            if compteur == 2 or compteur == 3 :
-                return alive
-            else :
-                return dead
-        else :
-            compteur2 = 0
-            for i in range(len(GameOfLife.voisin(cell))) :
-                if config.stateOf(GameOfLife.voisin(cell)[i]) == alive :
-                    compteur2 += 1
-            if compteur2 == 3 :
-                return alive
-            else :
-                return dead
-
-
-        return True
