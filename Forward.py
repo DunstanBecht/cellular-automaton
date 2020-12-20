@@ -8,6 +8,11 @@ from Game import *
 class Forward:
     """Allow to display configurations and their evolutions."""
 
+    screenshot = "t"
+    resize = "r"
+    forward = "right"
+    backward = "left"
+
     def __init__(self, configuration, game):
         if not isinstance(configuration, Configuration):
             raise Exception("bad arguments")
@@ -15,7 +20,10 @@ class Forward:
         self.configs = [configuration]
         self.time = 0
         self.fig, self.ax = matplotlib.pyplot.subplots(1)
-
+        self.x_min = -10
+        self.y_min = -10
+        self.x_max = 10
+        self.y_max = 10
         cid = self.fig.canvas.mpl_connect('key_press_event', self.onPress)
         self.plot()
 
@@ -43,12 +51,33 @@ class Forward:
                 states.append(new_states[l])
         return Configuration(cells, states, configuration.default_state)
 
+    def size(self, configuration):
+        x_min, x_max = float('inf'), -float('inf')
+        y_min, y_max = float('inf'), -float('inf')
+        for c in configuration.cells:
+            x_max = max(c[0], x_max)
+            x_min = min(c[0], x_min)
+            y_max = max(c[1], y_max)
+            y_min = min(c[1], y_min)
+        x_center = int((x_max+x_min)/2)
+        y_center = int((y_max+y_min)/2)
+        scope = max(x_max-x_min, y_max-y_min)
+        print("Resizing")
+        self.x_max = x_center + scope
+        self.x_min = x_center - scope
+        self.y_max = y_center + scope
+        self.y_min = y_center - scope
 
     def onPress(self, event):
-        if event.key=="right":
+        if event.key=="right": # forward
             self.time += 1
-        elif event.key=="left" and self.time!=0:
+        elif event.key=="left" and self.time!=0: # backward
             self.time -= 1
+        elif event.key=="r": # resize
+            self.size(self.configs[self.time])
+        elif event.key=="t":
+            print("Screenshot")
+            matplotlib.pyplot.savefig("Screenshots/"+str(self.time)+'.pdf')
         if self.time==len(self.configs):
             print('Generating configuration t='+str(self.time))
             self.configs.append(self.nextConfiguration(self.configs[-1]))
@@ -58,8 +87,8 @@ class Forward:
         matplotlib.pyplot.cla()
         self.ax.set_title('t='+str(self.time))
         configuration = self.configs[self.time]
-        self.ax.set_xlim(-10, 10)
-        self.ax.set_ylim(-10, 10)
+        self.ax.set_xlim(self.x_min, self.x_max)
+        self.ax.set_ylim(self.y_min, self.y_max)
         self.ax.set_aspect('equal', 'box')
         matplotlib.pyplot.axis('off')
         chessboard = numpy.zeros((10, 10))
@@ -73,3 +102,8 @@ class Forward:
 
     def show(self):
         matplotlib.pyplot.show()
+
+print("Press '"+Forward.forward+"' to move forward.")
+print("Press '"+Forward.backward+"' to move backward.")
+print("Press '"+Forward.resize+"' to resize the viewbox.")
+print("Press '"+Forward.screenshot+"' to take a screenshot.")
