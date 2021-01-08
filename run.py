@@ -30,7 +30,7 @@ if True: # Foward
 
     Forward(config, game_of_life).plot()
 
-if F: #Backward
+if False: #Backward
     print("Press '"+Backward.forward+"' to move forward.")
     print("Press '"+Backward.backward+"' to move backward.")
     print("Press '"+Backward.up+"' to move up on the same tree level.")
@@ -42,10 +42,8 @@ if F: #Backward
                Cell( 0, 0),
               ]
 
-
     cells = origine
     states = [alive for c in cells]
     config = Configuration(cells, states, dead)
-
 
     Backward(config, D.dunstan(game_of_life)).plot()

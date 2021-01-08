@@ -20,7 +20,6 @@ def dunstan(game):
             states = []
             for c in cells:
                 states.append(game.base[random.randint(0, len(game.base)-1)])
-
             prev_conf = Configuration(cells, states, configuration.default_state)
             if next(prev_conf) == configuration:
                 l.append(prev_conf)
