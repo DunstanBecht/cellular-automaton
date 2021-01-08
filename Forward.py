@@ -16,6 +16,8 @@ class Forward:
     def __init__(self, configuration, game):
         if not isinstance(configuration, Configuration):
             raise Exception("bad arguments")
+        if not isinstance(game, Game):
+            raise Exception("bad arguments")
         self.game = game
         self.configs = [configuration]
         self.time = 0
@@ -25,7 +27,6 @@ class Forward:
         self.x_max = 10
         self.y_max = 10
         cid = self.fig.canvas.mpl_connect('key_press_event', self.onPress)
-        self.plot()
 
     def nextConfiguration(self, configuration):
         """Returns the next configuration."""
@@ -69,13 +70,13 @@ class Forward:
         self.y_min = y_center - scope
 
     def onPress(self, event):
-        if event.key=="right": # forward
+        if event.key==Forward.forward: # forward
             self.time += 1
-        elif event.key=="left" and self.time!=0: # backward
+        elif event.key==Forward.backward and self.time!=0: # backward
             self.time -= 1
-        elif event.key=="r": # resize
+        elif event.key==Forward.resize: # resize
             self.size(self.configs[self.time])
-        elif event.key=="t":
+        elif event.key==Forward.screenshot:
             print("Screenshot")
             matplotlib.pyplot.savefig("Screenshots/"+str(self.time)+'.pdf')
         if self.time==len(self.configs):
@@ -99,11 +100,3 @@ class Forward:
             circ = matplotlib.pyplot.Circle((x, y), 0.5, color=state.color)
             self.ax.add_patch(circ)
         matplotlib.pyplot.show()
-
-    def show(self):
-        matplotlib.pyplot.show()
-
-print("Press '"+Forward.forward+"' to move forward.")
-print("Press '"+Forward.backward+"' to move backward.")
-print("Press '"+Forward.resize+"' to resize the viewbox.")
-print("Press '"+Forward.screenshot+"' to take a screenshot.")

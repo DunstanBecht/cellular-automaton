@@ -25,9 +25,14 @@ class Configuration:
                 if not isinstance(args[1][i], State):
                     raise Exception("bad arguments 5")
             # Data processing:
-            self.cells = [c for c in args[0]]
-            self.states = [s for s in args[1]]
+            self.cells = []
+            self.states = []
             self.default_state = args[2]
+            for i in range(len(args[0])):
+                if args[1][i]!=self.default_state:
+                    self.cells.append(args[0][i])
+                    self.states.append(args[1][i])
+
         else:
             raise Exception("bad arguments")
 
@@ -37,6 +42,15 @@ class Configuration:
     def stateList(self):
         return  [self.cells, self.states]
 
+    def __eq__(self, configuration):
+        l1 = self.stateList()
+        l2 = configuration.stateList()
+        for l in [l1, l2]:
+            for c in l[0]:
+                if self.stateOf(c) != configuration.stateOf(c):
+                    return False
+        return True
+
     def stateOf(self, cell):
         """Returns the state of 'cell'."""
         if not isinstance(cell, Cell):
@@ -45,3 +59,8 @@ class Configuration:
             if self.cells[i]==cell:
                 return self.states[i]
         return self.default_state
+
+    def copy(self):
+        cells = [c.copy() for c in self.cells]
+        states = [s for s in self.states]
+        return Configuration(cells, states, self.default_state)

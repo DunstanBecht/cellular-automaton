@@ -30,6 +30,9 @@ class Cell :
     def __str__(self):
         return "["+"; ".join([str(self[i]) for i in range(len(self))])+"]"
 
+    def copy(self):
+        return Cell(*self.coordinates)
+
 if __name__ == "__main__":
     cell = Cell(0, 1)
     print(cell)
